@@ -1,16 +1,3 @@
-banner = r'''
-                    #########################################################################
-                    #      ____            _           _   __  __                           #
-                    #     |  _ \ _ __ ___ (_) ___  ___| |_|  \/  | ___   ___  ___  ___      #
-                    #     | |_) | '__/ _ \| |/ _ \/ __| __| |\/| |/ _ \ / _ \/ __|/ _ \     #
-                    #     |  __/| | | (_) | |  __/ (__| |_| |  | | (_) | (_) \__ \  __/     #
-                    #     |_|   |_|  \___// |\___|\___|\__|_|  |_|\___/ \___/|___/\___|     #
-                    #                   |__/                                                #
-                    #                                  >> https://github.com/benmoose39     #
-                    #########################################################################
-'''
-print(banner)
-
 import os
 import sys
 
@@ -43,11 +30,11 @@ while True:
 
 def getSample():
     vpn = False
-    headers = {'Referer':'https://ustvgo.tv/'}
-    src = s.get('https://ustvgo.tv/player.php?stream=ABC', headers=headers).text
+    headers = {'Referer':'https://ustv247.tv/'}
+    src = s.get('https://ustv247.tv/player.php?stream=ABC', headers=headers).text
     global novpn_sample
     novpn_sample = src.split("hls_src='")[1].split("'")[0]
-    src = s.get('https://ustvgo.tv/player.php?stream=BET', headers=headers).text
+    src = s.get('https://ustv247.tv/player.php?stream=BET', headers=headers).text
     global vpn_sample
     if '.m3u8' in src:
         vpn_sample = src.split("hls_src='")[1].split("'")[0]
@@ -64,11 +51,11 @@ def grab(line):
         m3u = vpn_sample.replace('BET', code)
     else:
         m3u = novpn_sample.replace('ABC', code)
-    playlist.write(f'\n#EXTINF:-1 tvg-id="{code}" group-title="ustvgo" tvg-logo="{logo}", {name}')
+    playlist.write(f'\n#EXTINF:-1 tvg-id="{code}" group-title="ustv247" tvg-logo="{logo}", {name}')
     playlist.write(f'\n{m3u}')
 
 total = 0
-with open('../ustvgo_channel_info.txt') as file:
+with open('../ustv247_channel_info.txt') as file:
     for line in file:
         line = line.strip()
         if not line or line.startswith('~~'):
@@ -76,11 +63,10 @@ with open('../ustvgo_channel_info.txt') as file:
         total += 1
 
 s = requests.Session()
-with open('../ustvgo_channel_info.txt') as file:
-    with open('../ustvgo.m3u', 'w') as playlist:
+with open('../ustv247_channel_info.txt') as file:
+    with open('../ustv247.m3u', 'w') as playlist:
         print('[*] Generating your playlist, please wait...\n')
         playlist.write('#EXTM3U x-tvg-url="https://raw.githubusercontent.com/Theitfixer85/myepg/master/blueepg.xml.gz"')
-        playlist.write(f'\n{banner}\n')
         pbar = tqdm(total=total)
         vpn_sample = ''
         novpn_sample = ''
