@@ -1,6 +1,8 @@
 <h1 align="center"> ustvgo_to_m3u </h1>
 
-Grabs m3u links from ustvgo.tv
+Grabs m3u links from ustv247.tv
+All I am doing is substituting ustv247.tv as the source. Unfortunately the same channels seem to be blocked to non Nord VPN users. Still it seems to work. 
+
 
 **NEW UPDATE: If you hate setting up cron jobs, just execute `server.py` (based on Flask, yes it's a webserver) and leave it running.**
 
